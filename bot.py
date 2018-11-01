@@ -1,25 +1,8 @@
-import pickle
 import discord
-import threading
 TOKEN = 'NTA2NjAzMjI0Mjc5Njc4OTg4.Drki5w._GYIGgKS3b5C6aKir_MFtnpvJ4Y'
 client = discord.Client()
 channel = {}
 owner = {}
-#with open('channelNames.pkl', 'rb') as f:
-#	channel = pickle.load(f)
-@client.event
-async def cleaner():
-	threading.Timer(60.0, cleaner).start()
-	for sv in Client.servers:
-		for ch in sv.channels:
-			if ch.type == "ChannelType.voice":
-				if len(ch.voice_members) == 0:
-					for x in channel:
-						if x == ch.name:
-							del owner[x]
-					await client.delete_channel(ch)
-cleaner()
-	
 @client.event
 async def on_message(message):
 	if message.author == client.user:
@@ -37,8 +20,6 @@ async def on_message(message):
 				cID = discord.utils.get(serv.channels, name=name, type="ChannelType.voice")
 				cID = discord.utils.find(lambda c: c.name == name and c.type == 'voice', client.get_all_channels())
 				channel[message.author] = name
-				with open('channelNames.pkl', 'wb') as f:
-					pickle.dump(channel, f)
 			else:
 				await client.send_message(message.channel, "Sorry, something went wrong. Maybe you already have a channel?")
 
